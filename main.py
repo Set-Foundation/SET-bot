@@ -8,9 +8,10 @@ SET Bot
 
 By Mingde Yin (Itchono)
 
-v1.0 June 7, 2020
+v1.1 June 4, 2020
 
 Changelog:
+1.1 - Higher Uptime
 1.0 - Initial Release
 '''
 
@@ -21,6 +22,8 @@ dotenv.load_dotenv()
 TOKEN = os.environ.get('TOKEN')  # bot token; kept private
 
 client = commands.Bot(command_prefix="$")
+
+client.add_cog(SelfPing(client))
 
 @client.command()
 async def info(ctx : commands.Context):
@@ -44,6 +47,8 @@ async def on_message(message : discord.Message):
             roles.append(await participantRole(message.guild))
             await m.edit(roles=roles)
             await message.channel.send("Thanks {}, your role has been added!".format(message.author.mention))
+
+    await client.process_commands(message)
 
 @client.event
 async def on_ready():
