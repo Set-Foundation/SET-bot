@@ -8,9 +8,10 @@ SET Bot
 
 By Mingde Yin (Itchono)
 
-v1.1 June 4, 2020
+v1.2 July 12, 2020
 
 Changelog:
+1.2 - Number of members in each role function
 1.1 - Higher Uptime
 1.0 - Initial Release
 '''
