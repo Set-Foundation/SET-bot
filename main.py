@@ -27,15 +27,31 @@ client.add_cog(SelfPing(client))
 
 @client.command()
 async def info(ctx : commands.Context):
+    '''
+    Shows information about the bot
+    '''
     await ctx.send("I am SET BOT")
 
-async def participantRole(guild: discord.Guild):
+@client.command()
+async def numberof(ctx: commands.Context, role: discord.Role):
+    '''
+    Gets the number of users with a certain role
+    '''
+    await ctx.send(f"{len(role.members)} members have the \"{role.name}\" role.")
 
+
+async def participantRole(guild: discord.Guild):
+    '''
+    Gets the role named "Participant"
+    '''
+
+    '''
     for role in guild.roles:
-        if role.name == "Participant":
-            return role
-    print("bruh")
-    return None # failsafe
+        if role.name == "Participant": return role
+    return None
+    ''' # previous method
+
+    return discord.utils.get(guild.roles, name="Participant") # more elegant method
 
 
 @client.event
