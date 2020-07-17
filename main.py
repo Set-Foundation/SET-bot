@@ -11,6 +11,7 @@ By Mingde Yin (Itchono)
 v1.2 July 12, 2020
 
 Changelog:
+1.3 - Muting function
 1.2 - Number of members in each role function
 1.1 - Higher Uptime
 1.0 - Initial Release
@@ -54,6 +55,38 @@ async def participantRole(guild: discord.Guild):
 
     return discord.utils.get(guild.roles, name="Participant") # more elegant method
 
+async def mutedRole(guild: discord.Guild):
+    '''
+    Returns the Mute role for a guild, if it exists, or creates it
+    '''
+    for role in guild.roles:
+        if role.name == "Muted":
+            return role
+    
+    return await guild.create_role(name="Comrade-Muted")
+
+
+@client.command()
+@commands.has_guild_permissions(administrator=True)
+async def mute(ctx: commands.Context, u: discord.Member):
+    '''
+    Mutes/unmutes the user
+    '''
+    mutedrole = await mutedRole(ctx.guild)
+
+    if mutedrole in u.roles:
+        roles = u.roles
+        roles.remove(mutedrole)
+        await u.edit(roles=roles)
+        await ctx.send("{} was unmuted.".format(u.display_name))
+    else:
+        roles = u.roles
+        roles.append(mutedrole)
+        await u.edit(roles=roles)
+        await ctx.send("{} was muted.".format(u.display_name))
+
+        for channel in ctx.guild.channels:
+            await channel.set_permissions(mutedrole, send_messages=False, add_reactions=False)
 
 @client.event
 async def on_message(message : discord.Message):
