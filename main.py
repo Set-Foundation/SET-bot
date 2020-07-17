@@ -63,7 +63,7 @@ async def mutedRole(guild: discord.Guild):
         if role.name == "Muted":
             return role
     
-    return await guild.create_role(name="Comrade-Muted")
+    return await guild.create_role(name="Muted")
 
 
 @client.command()
