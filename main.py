@@ -98,6 +98,17 @@ async def on_message(message : discord.Message):
             await m.edit(roles=roles)
             await message.channel.send("Thanks {}, your role has been added!".format(message.author.mention))
 
+    ## message logging
+
+    elif message.author != client.user:
+
+        chn = discord.utils.get(message.guild.text_channels, name="bot-log")
+
+        if len(message.attachments) > 0:
+            e = discord.Embed(title="Attachment", url=message.attachments[0].url)
+            await chn.send(f"Message sent by {message.author}: {message.content}", e)
+        else: await chn.send(f"Message sent by {message.author}: {message.content} \n[in {message.channel.mention}]")
+
     await client.process_commands(message)
 
 @client.event
